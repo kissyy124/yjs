@@ -297,7 +297,7 @@
                     //一级菜单查询
                     this.selectParentMenuIds();
                     
-                    //发送请求获取检查项信息（数据回显）
+                    //发送请求获取菜单信息（数据回显）
                     axios.get("/menu/findById.do?id=" + row.id).then((res)=>{
                         if(res.data.flag){
                             //设置编辑窗口属性，dialogFormVisible4Edit为true表示显示

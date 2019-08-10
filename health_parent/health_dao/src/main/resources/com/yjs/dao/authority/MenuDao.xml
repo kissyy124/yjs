@@ -116,4 +116,9 @@
     <select id="selectParentMenuIds" resultType="map">
         select id,name from t_menu where level = 1
     </select>
+    
+    <!--查询该菜单的子菜单数量-->
+    <select id="selectSubmenuCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM t_menu WHERE parentMenuId = #{id}
+    </select>
 </mapper>

@@ -289,7 +289,7 @@
                 formData: {},//表单数据
                 tableData:[],//新增和编辑表单中对应的权限列表数据
                 tableDatb:[],//新增和编辑表单中对应的菜单列表数据
-                permissionIds:[],//新增和编辑表单中检查项对应的复选框，基于双向绑定可以进行回显和数据提交
+                permissionIds:[],//新增和编辑表单中权限/菜单对应的复选框，基于双向绑定可以进行回显和数据提交
                 menuIds:[],//新增和编辑表单中菜单项对应的复选框，基于双向绑定可以进行回显和数据提交
                 dialogFormVisible: false,//控制添加窗口显示/隐藏
                 dialogFormVisible4Edit:false//控制编辑窗口显示/隐藏
@@ -377,7 +377,7 @@
                     //发送ajax请求查询所有权限信息
                     axios.get("/permission/findAll.do").then((res)=> {
                         if(res.data.flag){
-                            //将检查项列表数据赋值给模型数据用于页面表格展示
+                            //将权限/菜单列表数据赋值给模型数据用于页面表格展示
                             this.tableData = res.data.data;
                         }else{
                             this.$message.error(res.data.message);
@@ -387,7 +387,7 @@
                     //发送ajax请求查询所有菜单信息
                     axios.get("/menu/findAll.do").then((res)=> {
                         if(res.data.flag){
-                            //将检查项列表数据赋值给模型数据用于页面表格展示
+                            //将权限/菜单列表数据赋值给模型数据用于页面表格展示
                             this.tableDatb = res.data.data;
                         }else{
                             this.$message.error(res.data.message);
@@ -407,7 +407,7 @@
                             this.activeName='first';
                             //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
                             this.formData = res.data.data;
-                            //发送ajax请求查询所有的检查项信息，用于检查项表格展示
+                            //发送ajax请求查询所有的权限/菜单信息，用于权限/菜单表格展示
                             axios.get("/permission/findAll.do").then((res)=> {
                                 if(res.data.flag){
                                     //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
@@ -423,7 +423,7 @@
                                 }
                             });
 
-                            //发送ajax请求查询所有的检查项信息，用于检查项表格展示
+                            //发送ajax请求查询所有的权限/菜单信息，用于权限/菜单表格展示
                             axios.get("/menu/findAll.do").then((res)=> {
                                 if(res.data.flag){
                                     //为模型数据赋值，通过VUE数据双向绑定进行信息的回显

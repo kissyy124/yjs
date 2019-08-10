@@ -48,6 +48,9 @@ public interface RoleDao {
     //调用dao层根据角色id查询对应所有菜单的id
     List<Integer> findMenuIdsByRoleId(Integer id);
 
+    //查询该角色被用户表引用数量
+    Integer selectConutUser(Integer RoleId);
+
     //根据id查询所有角色
 //    List<Role> findRoleById(Integer id);
 

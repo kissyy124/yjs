@@ -86,9 +86,9 @@ public class RoleController {
             //调用service，传入新的角色对象，新的对应的检查项的id
             roleService.edit(role,permissionIds,menuIds);
         }catch (Exception e){
-            return new Result(false,MessageConstant.EDIT_CHECKGROUP_FAIL);
+            return new Result(false,"编辑角色失败");
         }
-        return new Result(true,MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+        return new Result(true,"编辑角色成功");
     }
 
     //根据id删除角色项
@@ -97,10 +97,14 @@ public class RoleController {
         try {
             //调用service，传入角色的id，根据id删除对应角色
             roleService.delete(id);
-        }catch (Exception e){
-            return new Result(false,MessageConstant.DELETE_CHECKGROUP_FAIL);
+        }catch (RuntimeException e){
+            //该角色被引用
+            return new Result(false,e.getMessage());
         }
-        return new Result(true,MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+        catch (Exception e){
+            return new Result(false,"删除角色失败");
+        }
+        return new Result(true,"删除角色成功");
     }
 
     //查询所有角色
@@ -111,10 +115,10 @@ public class RoleController {
         //判断集合不为空或者长度大于0
         if(roleList != null && roleList.size() > 0){
             //查询成功，封装入结果集对象返回
-            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,roleList);
+            return new Result(true, "查询角色成功",roleList);
         }
         //如果为空或者长度为0，代表查询失败
-        return new Result(false,MessageConstant.QUERY_CHECKGROUP_FAIL);
+        return new Result(false,"查询角色失败");
 
     }
 }

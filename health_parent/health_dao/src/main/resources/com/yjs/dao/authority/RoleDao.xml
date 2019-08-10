@@ -117,5 +117,9 @@
         select * from t_role  where id
         in (select role_id from t_user_role where user_id=#{id})
     </select>
+    
+    <select id="selectConutUser" parameterType="int" resultType="int">
+        SELECT count(*) FROM t_user_role where role_id = #{id} 
+    </select>
 
 </mapper>

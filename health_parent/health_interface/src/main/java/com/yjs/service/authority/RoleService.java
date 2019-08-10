@@ -24,7 +24,7 @@ public interface RoleService {
     void edit(Role role, Integer[] permissionIds,Integer[] menuIds);
 
     //根据id删除角色
-    void delete(Integer RoleId);
+    void delete(Integer roleId);
 
     //查询所有角色
     List<Role> findAll();

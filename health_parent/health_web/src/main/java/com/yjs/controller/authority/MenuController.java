@@ -2,6 +2,7 @@ package com.yjs.controller.authority;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.yjs.Exception.SubmenuException;
 import com.yjs.constant.MessageConstant;
 import com.yjs.entity.PageResult;
 import com.yjs.entity.QueryPageBean;
@@ -57,7 +58,7 @@ public class MenuController {
         try {
             menuService.delete(id);
         }catch (RuntimeException e){
-            //如果运行报错，结果集设置false，传入抛出的提示信息（当前菜单被引用）
+            //如果运行报错，结果集设置false，传入抛出的提示信息（当前菜单被引用,还有子菜单未删除）
             return new Result(false,e.getMessage());
         }catch (Exception e){
             //其他错误设置
@@ -88,10 +89,14 @@ public class MenuController {
         //调用service层，以传入的check对象进行数据更新
         try {
             menuService.edit(menu);
+        }catch (RuntimeException e){
+            //如果运行报错，结果集设置false，传入抛出的提示信息（当前菜单被引用,还有子菜单未删除）
+            return new Result(false,e.getMessage());
         }catch (Exception e){
-            return new Result(false,MessageConstant.EDIT_CHECKITEM_FAIL);
+            //其他错误
+            return new Result(false,"编辑菜单失败");
         }
-        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+        return new Result(true,"编辑菜单成功");
     }
 
     //查询所有菜单
@@ -102,10 +107,10 @@ public class MenuController {
         //判断集合不为空或者长度大于0
         if(menuList != null && menuList.size() > 0){
             //查询成功，封装入结果集对象返回
-            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,menuList);
+            return new Result(true, "查询菜单成功",menuList);
         }
         //如果为空或者长度为0，代表查询失败
-        return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
+        return new Result(false,"查询菜单失败");
 
     }
 

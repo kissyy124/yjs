@@ -56,7 +56,7 @@ public class PermissionController {
         try {
             permissionService.delete(id);
         }catch (RuntimeException e){
-            //如果运行报错，结果集设置false，传入抛出的提示信息（当前检查项被引用）
+            //如果运行报错，结果集设置false，传入抛出的提示信息（当前权限被引用）
             return new Result(false,e.getMessage());
         }catch (Exception e){
             //其他错误设置
@@ -66,7 +66,7 @@ public class PermissionController {
         return new Result(true,"删除权限成功");
     }
 
-    //根据指定id查询检查检查项
+    //根据指定id查询检查权限
     @RequestMapping("findById")
     public Result findById(Integer id){
         //调用service层，以传入的check的id查询出数据
@@ -88,23 +88,23 @@ public class PermissionController {
         try {
             permissionService.edit(permission);
         }catch (Exception e){
-            return new Result(false,MessageConstant.EDIT_CHECKITEM_FAIL);
+            return new Result(false,"编辑权限失败");
         }
-        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+        return new Result(true,"编辑权限成功");
     }
 
-    //查询所有检查项
+    //查询所有权限
     @RequestMapping("/findAll")
     public Result findAll(){
-        //调用业务层，查询出所有检查项的list集合
+        //调用业务层，查询出所有权限的list集合
         List<Permission> permissionList =permissionService.findAll();
         //判断集合不为空或者长度大于0
         if(permissionList != null && permissionList.size() > 0){
             //查询成功，封装入结果集对象返回
-            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,permissionList);
+            return new Result(true,"查询权限成功",permissionList);
         }
         //如果为空或者长度为0，代表查询失败
-        return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
+        return new Result(false,"查询权限失败");
 
     }
     

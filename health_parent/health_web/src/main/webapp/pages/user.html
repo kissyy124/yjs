@@ -151,7 +151,7 @@
                                            
                                         </el-form>
                                     </el-tab-pane>
-                                    <el-tab-pane label="检查组信息" name="second">
+                                    <el-tab-pane label="角色信息" name="second">
 										<div class="checkScrol">
 											<table class="datatable">
 												<thead>
@@ -344,12 +344,12 @@
                             this.activeName='first';
                             //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
                             this.formData = res.data.data;
-                            //发送ajax请求查询所有的检查项信息，用于检查项表格展示
+                            //发送ajax请求查询所有的角色信息，用于角色表格展示
                             axios.get("/role/findAll.do").then((res)=> {
                                 if(res.data.flag){
                                     //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
                                     this.tableData = res.data.data;
-                                    //查询当前检查组包含的所有检查项id，用于页面回显
+                                    //查询当前检查组包含的所有角色id，用于页面回显
                                     axios.get("/user/findRoleIdsByUserId.do?id=" + row.id).then((res)=> {
                                         //为模型数据赋值，通过VUE数据双向绑定进行信息的回显
                                         this.roleIds = res.data;
@@ -435,10 +435,10 @@
                     this.dialogFormVisible = true;
                     //重置表单
                     this.resetForm();
-                    //发送ajax请求查询所有检查项信息
+                    //发送ajax请求查询所有角色信息
                     axios.get("/role/findAll.do").then((res) => {
                         if (res.data.flag) {
-                            //将检查项列表数据赋值给模型数据用于页面表格展示
+                            //将角色列表数据赋值给模型数据用于页面表格展示
                             this.tableData = res.data.data;
                         } else {
                             this.$message.error(res.data.message);

@@ -38,6 +38,9 @@ public interface MenuDao {
     //查询所有level为1的菜单的id
     List<Map> selectParentMenuIds();
 
+    //查询该菜单的子菜单数量
+    Integer selectSubmenuCount(Integer id);
+
     //根据角色id查询菜单信息
 //    List<Menu>findMenuById(Integer id);
     

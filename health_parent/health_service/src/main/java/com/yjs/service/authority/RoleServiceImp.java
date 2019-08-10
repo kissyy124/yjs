@@ -75,12 +75,19 @@ public class RoleServiceImp implements RoleService{
 
     @Override
     //根据id删除角色
-    public void delete(Integer RoleId) {
+    public void delete(Integer roleId) {
+        //查询该角色是被引用数量
+        Integer num = roleDao.selectConutUser(roleId);
+        //如果有被引用，则抛出异常
+        if (num>0) {
+            throw new RuntimeException("该角色被用户引用，删除失败");
+        }
+        
         //根据角色id删除中间表数据（清理原有关联关系）
-        roleDao.deleteAssociation(RoleId);
-        roleDao.deleteAssociation2(RoleId);
+        roleDao.deleteAssociation(roleId);
+        roleDao.deleteAssociation2(roleId);
         //根据角色id删除角色表的对应字段
-        roleDao.deleteRoleById(RoleId);
+        roleDao.deleteRoleById(roleId);
     }
 
     @Override

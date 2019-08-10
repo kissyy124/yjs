@@ -3,6 +3,7 @@ package com.yjs.service.authority;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yjs.Exception.SubmenuException;
 import com.yjs.dao.authority.MenuDao;
 import com.yjs.entity.PageResult;
 import com.yjs.pojo.Menu;
@@ -45,12 +46,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     //根据id删除指定菜单
     public void delete(Integer id) {
-        //查询当前菜单是否和检查组关联
+        //查询当前菜单是否和角色关联
         long count = menuDao.findCountByMenuId(id);
         if(count > 0){
             //当前菜单被引用，不能删除，抛出异常并设置提示信息，供controller层捕获
             throw new RuntimeException("当前菜单被引用，不能删除");
         }
+        //查询当前菜单是否具有子菜单
+        checkSubmenu(id);
+        
         //根据id删除指定菜单
         menuDao.deleteById(id);
     }
@@ -58,7 +62,19 @@ public class MenuServiceImpl implements MenuService {
     @Override
     //以传入的check对象进行数据更新
     public void edit(Menu menu) {
+        //判断是否有修改菜单的父菜单属性
+        Integer parentMenuId = menuDao.findById(menu.getId()).getParentMenuId();
+        //因为数据库内有的数据该字段没赋值，而页面选择无则是传入0，所以这里将数据库查出的null赋值为0
+        if (parentMenuId == null){
+            parentMenuId = 0;
+        }
+        if (parentMenuId != menu.getParentMenuId()) {
+            //如果不相等，代表有修改,进行是否有子菜单的判断
+            checkSubmenu(menu.getId());
+        }
+        //设置该菜单的level等级
         setLevel(menu);
+        
         //调用dao层进行更新数据
         menuDao.edit(menu);
     }
@@ -82,13 +98,22 @@ public class MenuServiceImpl implements MenuService {
     }
     
    //设置菜单对象的level属性
-    public Menu setLevel(Menu menu) {
+    public void setLevel(Menu menu) {
         //判断父id是否为0，如果否，则将等级设置为2，否则为1
         if (menu.getParentMenuId()!=0){
             menu.setLevel(2);
         }else {
             menu.setLevel(1);
         }
-        return menu;
+    }
+    
+    //删除菜单或者修改菜单等级时，判断该菜单是否有子菜单，如果有，则抛出异常提示
+    public void checkSubmenu(Integer id){
+        //调用dao查询该菜单是否有子菜单
+        Integer num = menuDao.selectSubmenuCount(id);
+        //判断是否大于0
+        if (num>0) {
+            throw new RuntimeException("操作失败，该菜单有关联子菜单");
+        }
     }
 }

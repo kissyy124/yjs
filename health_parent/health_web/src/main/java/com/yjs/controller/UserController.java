@@ -58,10 +58,10 @@ public class UserController {
             userService.add(user, roleIds);
         } catch (Exception e) {
             //新增失败
-            return new Result(false, MessageConstant.ADD_SETMEAL_FAIL);
+            return new Result(false,"新增用户成功");
         }
         //新增成功
-        return new Result(true, MessageConstant.ADD_SETMEAL_SUCCESS);
+        return new Result(true, "新增用户失败");
     }
 
    
@@ -88,11 +88,11 @@ public class UserController {
         //判断是否为空
         if (user != null) {
             //返回结果集
-            return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS, user);
+            return new Result(true,"查询用户成功", user);
 
         }
         //返回失败的结果集
-        return new Result(false, MessageConstant.QUERY_SETMEAL_FAIL);
+        return new Result(false, "查询用户失败");
     }
 
     //根据用户id，查询对应所有角色的集合
@@ -109,10 +109,10 @@ public class UserController {
             //调用service，传入新的角色对象，新的对应的检查项的id
             userService.edit(user,roleIds);
         }catch (Exception e){
-            return new Result(false,MessageConstant.EDIT_SETMEAL_FAIL);
+            return new Result(false,"编辑用户失败");
         }
         
-        return new Result(true,MessageConstant.EDIT_SETMEAL_SUCCESS);
+        return new Result(true,"编辑用户成功");
     }
 
     //根据id删除用户
@@ -122,9 +122,9 @@ public class UserController {
             //调用service，传入角色的id，根据id删除对应角色
             userService.delete(id);
         }catch (Exception e){
-            return new Result(false,MessageConstant.DELETE_SETMEAL_FAIL);
+            return new Result(false,"删除用户失败");
         }
-        return new Result(true,MessageConstant.DELETE_SETMEAL_SUCCESS);
+        return new Result(true,"删除用户成功");
     }
     
     
